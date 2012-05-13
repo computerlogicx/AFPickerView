@@ -68,6 +68,7 @@
 
 @protocol AFPickerViewDelegate <NSObject>
 
+@optional
 - (void)pickerView:(AFPickerView *)pickerView didSelectRow:(NSInteger)row;
 
 @end

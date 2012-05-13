@@ -164,7 +164,11 @@
     int position = round(delta / 39.0);
     currentRow = position;
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * position) animated:YES];
-    [delegate pickerView:self didSelectRow:currentRow];
+    
+    if ([self.delegate respondsToSelector:@selector(didSelectRow:)])
+    {
+        [self.delegate pickerView:self didSelectRow:currentRow];
+    }
 }
 
 
@@ -201,7 +205,10 @@
     
     currentRow = currentRow + steps;
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:YES];
-    [delegate pickerView:self didSelectRow:currentRow];
+    if ([self.delegate respondsToSelector:@selector(didSelectRow:)])
+    {
+        [self.delegate pickerView:self didSelectRow:currentRow];
+    }
 }
 
 
