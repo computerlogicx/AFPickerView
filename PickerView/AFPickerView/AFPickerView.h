@@ -41,6 +41,8 @@
 @property (nonatomic, unsafe_unretained) CGFloat rowIndent;
 @property (nonatomic, assign) BOOL centered;
 
+@property (nonatomic, strong) NSString *txtLabel;
+
 
 - (void)setup;
 - (void)reloadData;

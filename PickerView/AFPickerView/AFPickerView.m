@@ -8,6 +8,12 @@
 
 #import "AFPickerView.h"
 
+@interface AFPickerView()
+
+@property (nonatomic, strong) UILabel *label;
+
+@end
+
 @implementation AFPickerView
 
 #pragma mark - Synthesization
@@ -19,6 +25,8 @@
 @synthesize rowIndent = _rowIndent;
 @synthesize centered = _centered;
 
+@synthesize label = _label;
+@synthesize txtLabel = _txtLabel;
 
 
 #pragma mark - Custom getters/setters
@@ -37,7 +45,39 @@
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:animated];
 }
 
+- (void)setTxtLabel:(NSString *)txtLabel
+{
+    // animate setting the text
+    
+    if ([txtLabel isEqualToString:self.label.text]) return;
+    
+    [UIView animateWithDuration:0.2 animations:^
+    {
+        self.label.alpha = 0;
+    }
+    completion:^(BOOL finished)
+    {
+        self.label.text = txtLabel;
+        [UIView animateWithDuration:0.2 animations:^
+         {
+             self.label.alpha = 1;
+         }]; 
+    }];
+}
 
+- (UILabel *)label
+{
+    if (_label == nil)
+    {
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width / 2.0, 77.0, self.frame.size.width / 2.0, 39.0)];
+        _label.font = _rowFont;
+        _label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
+        _label.backgroundColor = [UIColor clearColor];
+        
+        [self addSubview:_label];
+    }
+    return _label;
+}
 
 
 - (void)setRowFont:(UIFont *)rowFont
