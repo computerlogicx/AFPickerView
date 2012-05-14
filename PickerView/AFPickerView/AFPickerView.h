@@ -39,6 +39,7 @@
 @property (nonatomic, unsafe_unretained) int selectedRow;
 @property (nonatomic, strong) UIFont *rowFont;
 @property (nonatomic, unsafe_unretained) CGFloat rowIndent;
+@property (nonatomic, assign) BOOL centered;
 
 
 - (void)setup;

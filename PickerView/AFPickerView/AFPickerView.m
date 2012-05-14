@@ -17,7 +17,7 @@
 @synthesize selectedRow = currentRow;
 @synthesize rowFont = _rowFont;
 @synthesize rowIndent = _rowIndent;
-
+@synthesize centered = _centered;
 
 
 
@@ -120,6 +120,8 @@
 
 - (void)setup
 {
+    self.centered = NO;
+    
     _rowFont = [UIFont boldSystemFontOfSize:24.0];
     _rowIndent = 30.0;
     
@@ -280,6 +282,12 @@
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.rowFont;
                 label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
+                
+                if (self.centered)
+                {
+                    label.frame = CGRectMake(0, 0, self.frame.size.width, 39.0);
+                    label.textAlignment = UITextAlignmentCenter;
+                }
             }
             
             [self configureView:label atIndex:index];
