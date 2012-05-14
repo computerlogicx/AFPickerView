@@ -23,13 +23,18 @@
 
 #pragma mark - Custom getters/setters
 
-- (void)setSelectedRow:(int)selectedRow
+- (void)setSelectedRow:(NSInteger)selectedRow
+{
+    [self setSelectedRow:selectedRow animated:NO];
+}
+
+- (void)setSelectedRow:(NSInteger)selectedRow animated:(BOOL)animated
 {
     if (selectedRow >= rowsCount)
         return;
     
     currentRow = selectedRow;
-    [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:NO];
+    [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:animated];
 }
 
 
