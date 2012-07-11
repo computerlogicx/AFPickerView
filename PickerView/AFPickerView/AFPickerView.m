@@ -8,7 +8,7 @@
 
 #import "AFPickerView.h"
 
-@interface AFPickerView()
+@interface AFPickerView ()
 
 @property (nonatomic, strong) UILabel *label;
 
@@ -39,8 +39,10 @@
 - (void)setSelectedRow:(NSInteger)selectedRow animated:(BOOL)animated
 {
     if (selectedRow >= rowsCount)
+    {
         return;
-    
+    }
+
     currentRow = selectedRow;
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:animated];
 }
@@ -48,21 +50,24 @@
 - (void)setTxtLabel:(NSString *)txtLabel
 {
     // animate setting the text
-    
-    if ([txtLabel isEqualToString:self.label.text]) return;
-    
+
+    if ([txtLabel isEqualToString:self.label.text])
+    {
+        return;
+    }
+
     [UIView animateWithDuration:0.2 animations:^
     {
         self.label.alpha = 0;
     }
-    completion:^(BOOL finished)
-    {
-        self.label.text = txtLabel;
-        [UIView animateWithDuration:0.2 animations:^
-         {
-             self.label.alpha = 1;
-         }]; 
-    }];
+                     completion:^(BOOL finished)
+                     {
+                         self.label.text = txtLabel;
+                         [UIView animateWithDuration:0.2 animations:^
+                         {
+                             self.label.alpha = 1;
+                         }];
+                     }];
 }
 
 - (UILabel *)label
@@ -73,7 +78,7 @@
         _label.font = _rowFont;
         _label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
         _label.backgroundColor = [UIColor clearColor];
-        
+
         [self addSubview:_label];
     }
     return _label;
@@ -83,34 +88,32 @@
 - (void)setRowFont:(UIFont *)rowFont
 {
     _rowFont = rowFont;
-    
-    for (UILabel *aLabel in visibleViews) 
+
+    for (UILabel *aLabel in visibleViews)
     {
         aLabel.font = _rowFont;
     }
-    
-    for (UILabel *aLabel in recycledViews) 
+
+    for (UILabel *aLabel in recycledViews)
     {
         aLabel.font = _rowFont;
     }
 }
 
 
-
-
 - (void)setRowIndent:(CGFloat)rowIndent
 {
     _rowIndent = rowIndent;
-    
-    for (UILabel *aLabel in visibleViews) 
+
+    for (UILabel *aLabel in visibleViews)
     {
         CGRect frame = aLabel.frame;
         frame.origin.x = _rowIndent;
         frame.size.width = self.frame.size.width - _rowIndent;
         aLabel.frame = frame;
     }
-    
-    for (UILabel *aLabel in recycledViews) 
+
+    for (UILabel *aLabel in recycledViews)
     {
         CGRect frame = aLabel.frame;
         frame.origin.x = _rowIndent;
@@ -127,30 +130,30 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) 
+    if (self)
     {
         // setup
         [self setup];
-        
+
         // backgound
         UIImageView *bacground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pickerBackground.png"]];
         [self addSubview:bacground];
-        
+
         // content
         contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
         contentView.showsHorizontalScrollIndicator = NO;
         contentView.showsVerticalScrollIndicator = NO;
         contentView.delegate = self;
         [self addSubview:contentView];
-        
+
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
         [contentView addGestureRecognizer:tapRecognizer];
-        
-        
+
+
         // shadows
         UIImageView *shadows = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pickerShadows.png"]];
         [self addSubview:shadows];
-        
+
         // glass
         UIImage *glassImage = [UIImage imageNamed:@"pickerGlass.png"];
         glassImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 76.0, glassImage.size.width, glassImage.size.height)];
@@ -161,15 +164,13 @@
 }
 
 
-
-
 - (void)setup
 {
     self.centered = NO;
-    
+
     _rowFont = [UIFont boldSystemFontOfSize:24.0];
     _rowIndent = 30.0;
-    
+
     currentRow = 0;
     rowsCount = 0;
     visibleViews = [[NSMutableSet alloc] init];
@@ -186,23 +187,25 @@
     // empry views
     currentRow = 0;
     rowsCount = 0;
-    
-    for (UIView *aView in visibleViews) 
+
+    for (UIView *aView in visibleViews)
+    {
         [aView removeFromSuperview];
-    
+    }
+
     for (UIView *aView in recycledViews)
+    {
         [aView removeFromSuperview];
-    
+    }
+
     visibleViews = [[NSMutableSet alloc] init];
     recycledViews = [[NSMutableSet alloc] init];
-    
+
     rowsCount = [dataSource numberOfRowsInPickerView:self];
     [contentView setContentOffset:CGPointMake(0.0, 0.0) animated:NO];
-    contentView.contentSize = CGSizeMake(contentView.frame.size.width, 39.0 * rowsCount + 4 * 39.0);    
+    contentView.contentSize = CGSizeMake(contentView.frame.size.width, 39.0 * rowsCount + 4 * 39.0);
     [self tileViews];
 }
-
-
 
 
 - (void)determineCurrentRow
@@ -211,7 +214,7 @@
     int position = round(delta / 39.0);
     currentRow = position;
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * position) animated:YES];
-    
+
     if ([self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)])
     {
         [self.delegate pickerView:self didSelectRow:currentRow];
@@ -219,37 +222,39 @@
 }
 
 
-
-
 - (void)didTap:(id)sender
 {
-    UITapGestureRecognizer *tapRecognizer = (UITapGestureRecognizer *)sender;
+    UITapGestureRecognizer *tapRecognizer = (UITapGestureRecognizer *) sender;
     CGPoint point = [tapRecognizer locationInView:self];
     int steps = floor(point.y / 39) - 2;
     [self makeSteps:steps];
 }
 
 
-
-
 - (void)makeSteps:(int)steps
 {
     if (steps == 0 || steps > 2 || steps < -2)
+    {
         return;
-    
+    }
+
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:NO];
-    
+
     int newRow = currentRow + steps;
     if (newRow < 0 || newRow >= rowsCount)
     {
         if (steps == -2)
+        {
             [self makeSteps:-1];
+        }
         else if (steps == 2)
+        {
             [self makeSteps:1];
-        
+        }
+
         return;
     }
-    
+
     currentRow = currentRow + steps;
     [contentView setContentOffset:CGPointMake(0.0, 39.0 * currentRow) animated:YES];
     if ([self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)])
@@ -265,23 +270,24 @@
 
 - (UIView *)dequeueRecycledView
 {
-	UIView *aView = [recycledViews anyObject];
-	
-    if (aView) 
+    UIView *aView = [recycledViews anyObject];
+
+    if (aView)
+    {
         [recycledViews removeObject:aView];
+    }
     return aView;
 }
 
 
-
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index
 {
-	BOOL foundPage = NO;
-    for (UIView *aView in visibleViews) 
-	{
+    BOOL foundPage = NO;
+    for (UIView *aView in visibleViews)
+    {
         int viewIndex = aView.frame.origin.y / 39.0 - 2;
-        if (viewIndex == index) 
-		{
+        if (viewIndex == index)
+        {
             foundPage = YES;
             break;
         }
@@ -290,51 +296,49 @@
 }
 
 
-
-
 - (void)tileViews
 {
     // Calculate which pages are visible
     CGRect visibleBounds = contentView.bounds;
     int firstNeededViewIndex = floorf(CGRectGetMinY(visibleBounds) / 39.0) - 2;
-    int lastNeededViewIndex  = floorf((CGRectGetMaxY(visibleBounds) / 39.0)) - 2;
+    int lastNeededViewIndex = floorf((CGRectGetMaxY(visibleBounds) / 39.0)) - 2;
     firstNeededViewIndex = MAX(firstNeededViewIndex, 0);
-    lastNeededViewIndex  = MIN(lastNeededViewIndex, rowsCount - 1);
-	
+    lastNeededViewIndex = MIN(lastNeededViewIndex, rowsCount - 1);
+
     // Recycle no-longer-visible pages 
-	for (UIView *aView in visibleViews) 
+    for (UIView *aView in visibleViews)
     {
         int viewIndex = aView.frame.origin.y / 39 - 2;
-        if (viewIndex < firstNeededViewIndex || viewIndex > lastNeededViewIndex) 
+        if (viewIndex < firstNeededViewIndex || viewIndex > lastNeededViewIndex)
         {
             [recycledViews addObject:aView];
             [aView removeFromSuperview];
         }
     }
-    
+
     [visibleViews minusSet:recycledViews];
-    
+
     // add missing pages
-	for (int index = firstNeededViewIndex; index <= lastNeededViewIndex; index++) 
-	{
-        if (![self isDisplayingViewForIndex:index]) 
-		{
-            UILabel *label = (UILabel *)[self dequeueRecycledView];
-            
-			if (label == nil)
+    for (int index = firstNeededViewIndex; index <= lastNeededViewIndex; index++)
+    {
+        if (![self isDisplayingViewForIndex:index])
+        {
+            UILabel *label = (UILabel *) [self dequeueRecycledView];
+
+            if (label == nil)
             {
-				label = [[UILabel alloc] initWithFrame:CGRectMake(_rowIndent, 0, self.frame.size.width - _rowIndent, 39.0)];
+                label = [[UILabel alloc] initWithFrame:CGRectMake(_rowIndent, 0, self.frame.size.width - _rowIndent, 39.0)];
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.rowFont;
                 label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
-                
+
                 if (self.centered)
                 {
                     label.frame = CGRectMake(0, 0, self.frame.size.width, 39.0);
                     label.textAlignment = UITextAlignmentCenter;
                 }
             }
-            
+
             [self configureView:label atIndex:index];
             [contentView addSubview:label];
             [visibleViews addObject:label];
@@ -343,11 +347,9 @@
 }
 
 
-
-
 - (void)configureView:(UIView *)view atIndex:(NSUInteger)index
 {
-    UILabel *label = (UILabel *)view;
+    UILabel *label = (UILabel *) view;
     label.text = [dataSource pickerView:self titleForRow:index];
     CGRect frame = label.frame;
     frame.origin.y = 39.0 * index + 78.0;
@@ -365,15 +367,13 @@
 }
 
 
-
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (!decelerate)
+    {
         [self determineCurrentRow];
+    }
 }
-
-
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

@@ -23,16 +23,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
+    // Do any additional setup after loading the view, typically from a nib.
+
     daysData = [[NSArray alloc] initWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
-    
+
     defaultPickerView = [[AFPickerView alloc] initWithFrame:CGRectMake(30.0, 30.0, 126.0, 197.0)];
     defaultPickerView.dataSource = self;
     defaultPickerView.delegate = self;
     [defaultPickerView reloadData];
     [self.view addSubview:defaultPickerView];
-    
+
     daysPickerView = [[AFPickerView alloc] initWithFrame:CGRectMake(30.0, 250.0, 126.0, 197.0)];
     daysPickerView.dataSource = self;
     daysPickerView.delegate = self;
@@ -50,19 +50,21 @@
 - (NSInteger)numberOfRowsInPickerView:(AFPickerView *)pickerView
 {
     if (pickerView == daysPickerView)
+    {
         return [daysData count];
-    
+    }
+
     return 100;
 }
-
-
 
 
 - (NSString *)pickerView:(AFPickerView *)pickerView titleForRow:(NSInteger)row
 {
     if (pickerView == daysPickerView)
+    {
         return [daysData objectAtIndex:row];
-    
+    }
+
     return [NSString stringWithFormat:@"%i", row + 1];
 }
 
@@ -74,9 +76,13 @@
 - (void)pickerView:(AFPickerView *)pickerView didSelectRow:(NSInteger)row
 {
     if (pickerView == daysPickerView)
+    {
         self.dayLabel.text = [daysData objectAtIndex:row];
+    }
     else
+    {
         self.numberLabel.text = [NSString stringWithFormat:@"%i", row + 1];
+    }
 }
 
 
@@ -91,8 +97,6 @@
 }
 
 
-
-
 - (void)viewDidUnload
 {
     [self setNumberLabel:nil];
@@ -101,7 +105,6 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
 
 
 @end
