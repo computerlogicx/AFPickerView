@@ -335,7 +335,7 @@
                 if (self.centered)
                 {
                     label.frame = CGRectMake(0, 0, self.frame.size.width, 39.0);
-                    label.textAlignment = UITextAlignmentCenter;
+                    label.textAlignment = NSTextAlignmentCenter;
                 }
             }
 
