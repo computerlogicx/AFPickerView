@@ -20,8 +20,8 @@
     UIScrollView *contentView;
     UIImageView *glassImageView;
 
-    NSInteger currentRow;
-    NSInteger rowsCount;
+    int currentRow;
+    int rowsCount;
 
     CGPoint previousOffset;
     BOOL isScrollingUp;
@@ -63,7 +63,7 @@
 
 - (void)configureView:(UIView *)view atIndex:(NSUInteger)index;
 
-- (void)setSelectedRow:(NSInteger)selectedRow animated:(BOOL)animated;
+- (void)setSelectedRow:(int)selectedRow animated:(BOOL)animated;
 
 @end
 

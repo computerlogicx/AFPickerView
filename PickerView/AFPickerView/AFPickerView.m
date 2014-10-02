@@ -31,12 +31,12 @@
 
 #pragma mark - Custom getters/setters
 
-- (void)setSelectedRow:(NSInteger)selectedRow
+- (void)setSelectedRow:(int)selectedRow
 {
     [self setSelectedRow:selectedRow animated:NO];
 }
 
-- (void)setSelectedRow:(NSInteger)selectedRow animated:(BOOL)animated
+- (void)setSelectedRow:(int)selectedRow animated:(BOOL)animated
 {
     if (selectedRow >= rowsCount)
     {
